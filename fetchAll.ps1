@@ -15,7 +15,10 @@ foreach ($dir in $subDirs) {
         param($dirPath)
         Write-Output "Fetching in directory: $dirPath"
         Set-Location $dirPath
-        git fetch
+
+        # Git fetch outputs to stderr, which PowerShell treats as an error
+        # redirect the stderr output of the git fetch command to stdout
+        git fetch 2>&1
     } -ArgumentList $dir.FullName
     $jobs += $job
 }
